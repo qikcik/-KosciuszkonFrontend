@@ -24,6 +24,7 @@ const GESTURE = {
         const firstTouch = getTouches(evt)[0];
         xDown = firstTouch.clientX;
         yDown = firstTouch.clientY;
+        GESTURE.swipe.value = 0;
     };
 
     function handleTouchEnd(evt) {
