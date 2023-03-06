@@ -50,7 +50,7 @@ const GESTURE = {
             GESTURE.swipe.value = -(xDiff / document.body.clientWidth);
             GESTURE.swipe.onChange_delegates.forEach(x => x(GESTURE.swipe.value ));
 
-            console.log(GESTURE.swipe.value);
+            //console.log(GESTURE.swipe.value);
         }
 
         //xDown = null;

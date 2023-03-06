@@ -20,16 +20,32 @@
 
     ];
 
+    const createMemeFromDbEntry = (entry) => {
+        let element = document.createElement("single-mem");
+        element.setAttribute("id",entry.id);
+        element.setAttribute("src",entry.url);
+        document.querySelector(`main`).appendChild(element);
+    };
+
     Memes.forEach(x => {
-        document.querySelector(`main`).innerHTML += `<section><div><img src="${x.url}""></div></section>`;
+        createMemeFromDbEntry(x);
     });
 
     const threshold = 0.2;
 
+    const response = {
+        liked: [],
+        disliked: [],
+    }
+
     const TransformLastElement = (value) => {
-        document.querySelector(`section:first-of-type`).style.transform = `translate(${value*100}vw)`;
+        document.querySelector(`single-mem:first-of-type`).style.transform = `translate(${value*100}vw)`;
         if(Math.abs(value) > threshold) {
-            document.querySelector(`section:first-of-type`).style.opacity = `${1 - (Math.abs(value) * 3)}`;
+            document.querySelector(`single-mem:first-of-type`).style.opacity = `${1 - (Math.abs(value) * 3)}`;
+        }
+        if(value == 0)
+        {
+            document.querySelector(`single-mem:first-of-type`).style.opacity = `1`;
         }
     }
 
@@ -40,15 +56,24 @@
             TransformLastElement(0);
             return;
         }
+        const element = document.querySelector(`single-mem:first-of-type`);
+        if(value > 0)
+        {
+            response.liked.push(element.id);
+        }
+        else
+        {
+            response.disliked.push(element.id);
+        }
+        console.log(response);
 
-        document.querySelector(`section:first-of-type`).remove();
+        element.remove();
 
         // actual logic:
-        const left = document.querySelectorAll(`section`);
-        console.log(left);
+        const left = document.querySelectorAll(`single-mem`);
         if(left.length < 3) {
             Memes.forEach(x => {
-                document.querySelector(`main`).innerHTML += `<section><div><img src="${x.url}""></div></section>`;
+                createMemeFromDbEntry(x);
             });
         }
     })
